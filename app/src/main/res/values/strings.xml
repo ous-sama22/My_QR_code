@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">My_QR_code</string>
+    <string name="select_save_folder">Choisir le dossier de sauvegarde</string>
+    <string name="cancel">Annuler</string>
+    <string name="save_success">QR Code enregistré avec succès.</string>
+    <string name="save_error">Erreur lors de l\'enregistrement du QR Code.</string>
+    <string name="generate_first">Générez d\'abord un QR Code.</string>
+    <string name="enter_text">Veuillez saisir du texte.</string>
+    <string name="generate_text">Générer un QR Code</string>
+    <string name="scan_text">Scanner un QR Code</string>
+</resources>
