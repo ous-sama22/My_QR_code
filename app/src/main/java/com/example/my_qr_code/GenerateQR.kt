@@ -1,3 +1,13 @@
+/**
+ * GenerateQR.kt
+ * Activity for generating and saving QR codes.
+ *
+ * This activity allows users to:
+ * - Input text to generate a QR code
+ * - Generate QR codes from the input text
+ * - Save generated QR codes to the device's Pictures directory
+ * - Handle storage permissions for Android devices
+ */
 package com.example.my_qr_code
 
 import android.content.ContentValues
@@ -20,8 +30,13 @@ import java.io.File
 import java.io.FileOutputStream
 
 class GenerateQR : AppCompatActivity() {
+    /** Stores the currently generated QR code bitmap */
     private var generatedQRCode: Bitmap? = null
 
+    /**
+     * Initializes the activity and sets up the UI components.
+     * @param savedInstanceState Bundle containing the activity's previously saved state
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_generate_qr)
@@ -29,6 +44,10 @@ class GenerateQR : AppCompatActivity() {
         setupViews()
     }
 
+    /**
+     * Sets up view elements and their click listeners.
+     * Handles QR code generation and saving functionality.
+     */
     private fun setupViews() {
         val inputText: EditText = findViewById(R.id.et_input_text)
         val generateButton: Button = findViewById(R.id.btn_generate)
@@ -60,6 +79,11 @@ class GenerateQR : AppCompatActivity() {
         }
     }
 
+    /**
+     * Generates a QR code bitmap from the provided text.
+     * @param text The text to encode in the QR code
+     * @return Bitmap containing the generated QR code
+     */
     private fun generateQRCode(text: String): Bitmap {
         val writer = QRCodeWriter()
         val size = 512
@@ -74,6 +98,11 @@ class GenerateQR : AppCompatActivity() {
         return bitmap
     }
 
+    /**
+     * Saves the QR code bitmap to the device's storage.
+     * Handles different storage mechanisms for different Android versions.
+     * @param bitmap The QR code bitmap to save
+     */
     private fun saveQRCodeImage(bitmap: Bitmap) {
         val filename = "QRCode_${System.currentTimeMillis()}.png"
         try {
@@ -89,6 +118,11 @@ class GenerateQR : AppCompatActivity() {
         }
     }
 
+    /**
+     * Saves image using MediaStore API for Android 10 and above.
+     * @param bitmap The QR code bitmap to save
+     * @param filename Name for the saved file
+     */
     private fun saveImageWithMediaStore(bitmap: Bitmap, filename: String) {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
@@ -102,6 +136,11 @@ class GenerateQR : AppCompatActivity() {
         }
     }
 
+    /**
+     * Saves image directly to directory for Android versions below 10.
+     * @param bitmap The QR code bitmap to save
+     * @param filename Name for the saved file
+     */
     private fun saveImageToDirectory(bitmap: Bitmap, filename: String) {
         val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         if (!directory.exists()) {
@@ -114,6 +153,10 @@ class GenerateQR : AppCompatActivity() {
         }
     }
 
+    /**
+     * Handles the result of permission requests.
+     * Continues with save operation if permission is granted.
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
